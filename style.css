@@ -1,0 +1,95 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: "Comic Sans MS", cursive;
+  margin: 0;
+  padding: 0;
+  background: #f0faff;
+  color: #333;
+}
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+.sidebar {
+  width: 35%;
+  background: #ffeaa7;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  border-right: 4px dashed #fdcb6e;
+}
+.sidebar h2 {
+  font-size: 24px;
+}
+.sidebar textarea {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #fab1a0;
+  border-radius: 8px;
+  width: 100%;
+  min-height: 100px;
+  font-family: monospace;
+}
+.sidebar button {
+  padding: 10px;
+  font-size: 16px;
+  background: #55efc4;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.sidebar button:hover {
+  background: #00cec9;
+  color: white;
+}
+.feedback {
+  font-weight: bold;
+}
+.hint-text {
+  font-size: 16px;
+  font-style: italic;
+  color: #636e72;
+  background: #dfe6e9;
+  padding: 10px;
+  border-left: 4px solid #00cec9;
+  border-radius: 6px;
+}
+.playground-area {
+  width: 65%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #dfe6e9;
+  padding: 30px;
+}
+.box {
+  background: #ffffff;
+  border: 3px dashed #0984e3;
+  padding: 20px;
+  width: 100%;
+  min-height: 95vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: nowrap;
+  position: relative;
+  transition: all 0.5s ease;
+}
+.animal {
+  font-size: 48px;
+  padding: 10px;
+  border-radius: 12px;
+  background: #ffeaa7;
+  transition: transform 0.3s;
+  position: relative;
+  z-index: 2;
+}
+.animal:hover {
+  transform: scale(1.1);
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flexbox Игра для Детей</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <h2 id="instruction">Задание появится здесь...</h2>
+        <p id="hint" class="hint-text">Подсказка появится тут...</p>
+        <textarea
+          id="cssInput"
+          placeholder="Напиши CSS (например: display: flex; justify-content: center;)"
+        ></textarea>
+        <button id="nextBtn" onclick="nextLevel()">➡️ Дальше</button>
+        <button onclick="checkAnswer()">Проверить</button>
+        <button onclick="resetProgress()">🔁 Сбросить прогресс</button>
+
+        <p id="feedback" class="feedback"></p>
+
+        <p
+          id="practiceLabel"
+          style="display: none; font-style: italic; color: #666"
+        >
+          Практический режим
+        </p>
+      </div>
+
+      <div class="playground-area">
+        <div id="playground" class="box">
+          <div class="animal">🐶</div>
+          <div class="animal">🐱</div>
+          <div class="animal">🐰</div>
+          <div class="animal">🐶</div>
+          <div class="animal">🐱</div>
+          <div class="animal">🐰</div>
+          <div class="animal">🐶</div>
+          <div class="animal">🐱</div>
+          <div class="animal">🐰</div>
+          <div class="animal">🐱</div>
+          <div class="animal">🐰</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
