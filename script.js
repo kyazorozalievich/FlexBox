@@ -3,31 +3,31 @@ const levels = [
     instruction: "1. Центрируй зверят по горизонтали",
     correctCSS: "justify-content: center;",
     hint: "Подсказка: display: flex; justify-content: center;",
+    animalsCount: 3,
   },
   {
     instruction: "2. Выравнивание по низу",
     correctCSS: "align-items: flex-end;",
     hint: "Подсказка: display: flex; align-items: flex-end;",
+    animalsCount: 3,
   },
   {
     instruction: "3. Распредели с промежутками",
     correctCSS: "justify-content: space-between;",
     hint: "Подсказка: display: flex; justify-content: space-between;",
+    animalsCount: 4,
   },
   {
     instruction: "4. Построй колонку из зверят",
     correctCSS: "flex-direction: column;",
     hint: "Подсказка: display: flex; flex-direction: column;",
+    animalsCount: 4,
   },
   {
-    instruction: "5. Добавь отступы между зверятами",
-    correctCSS: "gap: 10px;",
-    hint: "Подсказка: display: flex; gap: 10px;",
-  },
-  {
-    instruction: "6. Включи перенос зверят на другую строку",
+    instruction: "5. Включи перенос зверят на другую строку",
     correctCSS: "flex-wrap: wrap;",
     hint: "Подсказка: display: flex; flex-wrap: wrap;",
+    animalsCount: 15,
   },
 ];
 
@@ -44,19 +44,28 @@ function loadLevel() {
   document.getElementById("nextBtn").style.display = "none";
   document.getElementById("practiceLabel").style.display = "none";
   isPracticeMode = false;
-  resetPlayground();
+  resetPlayground(level.animalsCount);
 }
 
-function resetPlayground() {
+function resetPlayground(count = 3) {
   const box = document.getElementById("playground");
+  box.innerHTML = "";
   box.style.cssText = "";
   box.className = "box";
   box.style.display = "flex";
+
+  const animals = ["🐶", "🐱", "🐰"];
+  for (let i = 0; i < count; i++) {
+    const animalDiv = document.createElement("div");
+    animalDiv.className = "animal";
+    animalDiv.textContent = animals[i % animals.length];
+    box.appendChild(animalDiv);
+  }
 }
 
 function applyCSS(cssText) {
   const box = document.getElementById("playground");
-  const styleProps = {};
+  box.style.cssText = "display: flex;"; // сброс + flex
 
   const rules = cssText
     .split(";")
@@ -64,46 +73,35 @@ function applyCSS(cssText) {
     .filter((r) => r.includes(":"));
 
   rules.forEach((rule) => {
-    let [prop, value] = rule.split(":").map((p) => p.trim());
+    const [prop, value] = rule.split(":").map((s) => s.trim());
     if (prop && value) {
-      styleProps[prop] = value;
+      box.style.setProperty(prop, value);
     }
   });
-
-  if (isPracticeMode) {
-    Object.entries(styleProps).forEach(([prop, value]) => {
-      box.style[prop] = value;
-    });
-    if (!styleProps["display"] || styleProps["display"] !== "flex") {
-      box.style.display = "flex";
-    }
-  } else {
-    if (styleProps["display"] === "flex") {
-      Object.entries(styleProps).forEach(([prop, value]) => {
-        box.style[prop] = value;
-      });
-    } else {
-      box.style.cssText = "display: flex;";
-    }
-  }
 }
-
 function checkAnswer() {
   const input = document
     .getElementById("cssInput")
     .value.trim()
     .replace(/\s+/g, " ");
-  const correct = levels[currentLevel].correctCSS.trim();
-  const hasDisplayFlex = input.includes("display: flex");
-  const isCorrect = hasDisplayFlex && input.includes(correct);
 
   applyCSS(input);
+
+  if (isPracticeMode) {
+    document.getElementById("feedback").innerText =
+      "✅ Свойства применены! Ты в практическом режиме.";
+    return;
+  }
+
+  const correct = levels[currentLevel]?.correctCSS?.trim();
+  const hasDisplayFlex = input.includes("display: flex");
+  const isCorrect = hasDisplayFlex && input.includes(correct);
 
   if (isCorrect) {
     document.getElementById("feedback").innerText = "✅ Правильно!";
     document.getElementById("cssInput").disabled = true;
     document.getElementById("nextBtn").style.display = "inline-block";
-    localStorage.setItem("currentLevel", currentLevel); // Сохраняем уровень
+    localStorage.setItem("currentLevel", currentLevel);
   } else {
     document.getElementById("feedback").innerText =
       "❌ Неправильно. Попробуй снова!";
@@ -112,7 +110,7 @@ function checkAnswer() {
 
 function nextLevel() {
   currentLevel++;
-  localStorage.setItem("currentLevel", currentLevel); // Сохраняем уровень
+  localStorage.setItem("currentLevel", currentLevel);
 
   if (currentLevel < levels.length) {
     loadLevel();
@@ -120,7 +118,6 @@ function nextLevel() {
     activatePracticeMode();
   }
 }
-
 function activatePracticeMode() {
   isPracticeMode = true;
   document.getElementById("instruction").innerText =
@@ -132,8 +129,9 @@ function activatePracticeMode() {
   document.getElementById("practiceLabel").style.display = "block";
   document.getElementById("feedback").innerText = "👨‍🏫 Практика включена!";
   document.getElementById("cssInput").value = "display: flex;";
+  resetPlayground(12); // больше зверят
   applyCSS("display: flex;");
-  localStorage.setItem("currentLevel", levels.length); // Помечаем как завершённый
+  localStorage.setItem("currentLevel", levels.length);
 }
 
 function resetProgress() {

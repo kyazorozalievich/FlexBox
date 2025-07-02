@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
 }
+
 body {
   font-family: "Comic Sans MS", cursive;
   margin: 0;
@@ -8,12 +9,17 @@ body {
   background: #f0faff;
   color: #333;
 }
+
 .container {
   display: flex;
+  flex-direction: row;
   min-height: 100vh;
+  flex-wrap: wrap;
 }
+
 .sidebar {
-  width: 35%;
+  width: 100%;
+  max-width: 400px;
   background: #ffeaa7;
   padding: 30px;
   display: flex;
@@ -22,9 +28,11 @@ body {
   gap: 20px;
   border-right: 4px dashed #fdcb6e;
 }
+
 .sidebar h2 {
   font-size: 24px;
 }
+
 .sidebar textarea {
   padding: 10px;
   font-size: 16px;
@@ -33,7 +41,9 @@ body {
   width: 100%;
   min-height: 100px;
   font-family: monospace;
+  resize: vertical;
 }
+
 .sidebar button {
   padding: 10px;
   font-size: 16px;
@@ -43,13 +53,16 @@ body {
   cursor: pointer;
   transition: 0.3s;
 }
+
 .sidebar button:hover {
   background: #00cec9;
   color: white;
 }
+
 .feedback {
   font-weight: bold;
 }
+
 .hint-text {
   font-size: 16px;
   font-style: italic;
@@ -59,37 +72,73 @@ body {
   border-left: 4px solid #00cec9;
   border-radius: 6px;
 }
+
 .playground-area {
-  width: 65%;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #dfe6e9;
   padding: 30px;
+  overflow: auto;
 }
+
 .box {
   background: #ffffff;
   border: 3px dashed #0984e3;
   padding: 20px;
   width: 100%;
-  min-height: 95vh;
+  max-width: 1000px;
+  min-height: 400px;
   display: flex;
+  flex-wrap: nowrap;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 10px;
-  flex-wrap: nowrap;
-  position: relative;
+  gap: 10px; /* фиксированное расстояние между зверятами */
   transition: all 0.5s ease;
+  overflow-wrap: break-word;
+  flex-direction: row; /* будет переопределяться скриптом */
+  flex-shrink: 0;
+  flex-grow: 1;
+  flex-basis: auto;
 }
+
 .animal {
   font-size: 48px;
   padding: 10px;
   border-radius: 12px;
   background: #ffeaa7;
   transition: transform 0.3s;
-  position: relative;
-  z-index: 2;
+  text-align: center;
+  flex: 0 0 auto; /* не сжимается */
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
 }
+
 .animal:hover {
   transform: scale(1.1);
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: none;
+    border-right: none;
+    border-bottom: 4px dashed #fdcb6e;
+  }
+
+  .playground-area {
+    padding: 20px;
+  }
+
+  .box {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 300px;
+  }
 }
